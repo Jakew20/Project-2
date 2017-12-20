@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Binger -- Find your next bingwatch here!</title>
+
+    <!-- Bootstrap core CSS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/login.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Binger</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home
+              </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profile.html">My Profile</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="login-box">
+        <div class="login-logo">
+        </div>
+        <!-- /.login-logo -->
+        <div class="login-box-body">
+            <p class="login-box-msg">Login To Access Your Account!</p>
+            <form id="createForm" action="/api/users" method="post" accept-charset="utf-8">
+                <div class="form-group has-feedback" id="firstName">
+                    <input type="text" name="unamef" value="" placeholder="First Name" class="user form-control" id="userf" maxlength="80" size="30">
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    <span><font color="red"></font></span>
+                </div>
+                <div class="form-group has-feedback" id="lastName">
+                    <input type="text" name="unamel" value="" placeholder="Last Name" class="user form-control" id="userl" maxlength="80" size="30">
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    <span><font color="red"></font></span>
+                </div>
+                <div class="form-group has-feedback" id="emailDiv">
+                    <input type="text" name="email" value="" placeholder="Email" class="user form-control" id="email" maxlength="80" size="30">
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    <span><font color="red"></font></span>
+                </div>
+                <div class="form-group has-feedback" id="passDiv">
+                    <input type="password" name="password" value="" placeholder="Password" class="pass form-control" id="password" size="30">
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <!-- Input TV Shows -->
+                <div>
+                    <h6>What are your 5 favorite Movies or TV Shows?</h6>
+                    <div class="form-group has-feedback">
+                        <input type="tvshow" name="movie1" value="" placeholder="TV Show or Movie" class="pass form-control" id="movie1" size="30">
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        <span><font color="red"></font></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="tvshow" name="movie2" value="" placeholder="TV Show or Movie" class="pass form-control" id="movie2" size="30">
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        <span><font color="red"></font></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="tvshow" name="movie3" value="" placeholder="TV Show or Movie" class="pass form-control" id="movie3" size="30">
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        <span><font color="red"></font></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="tvshow" name="movie4" value="" placeholder="TV Show or Movie" class="pass form-control" id="movie4" size="30">
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        <span><font color="red"></font></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="tvshow" name="movie5" value="" placeholder="TV Show or Movie" class="pass form-control" id="movie5" size="30">
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        <span><font color="red"></font></span>
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-xs-4">
+                    <button type="submit" name="submit" value="Log In" id="submit" class="create" style="color: white; background-color: #660000; border: none; cursor: pointer;">Create Account</button></div>
+                <!-- /.col -->
+                <p style="padding-top:20px">
+                    <a href="login.html">Already a User? Login Here!</a>
+                </p>
+        </div>
+    </div>
+    </form>
+    </div>
+    <!-- /.login-box-body -->
+    </div>
+
+
+
+    <!-- Footer -->
+    <footer class="py-5">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; Binger 2017</p>
+        </div>
+        <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="bootstrap/jquery/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+    <script>
+    
+        $("#createForm").on("submit", function(event) {
+            event.preventDefault();
+
+            $.ajax({
+                method: "POST",
+                url: '/api/users',
+                data: $(this).serialize(),
+                dataType: 'json'
+            }).done(function(data) {
+
+                if (data.redirect) {
+                    window.location.href = data.redirect;
+                }else{
+                    alert('Invalid data or something.');
+                }
+
+            });
+
+        });
+    
+    </script>
+
+</body>
+
+</html>

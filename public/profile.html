@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Binge'r -- Find your next bingwatch here!</title>
+
+  <!-- Bootstrap core CSS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css" integrity="sha384-Wrgq82RsEean5tP3NK3zWAemiNEXofJsTwTyHmNb/iL3dP/sZJ4+7sOld1uqYJtE"
+    crossorigin="anonymous">
+
+  <!-- Custom styles for this template -->
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/profile.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Binge'r</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#">My Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="login.html">Login</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Profile Content -->
+  <header style="background-image: url('images/film.png');">
+    <div class="overlay">
+      <div class="container">
+        <h1 class="display-1 text-white text-right">Profile</h1>
+        <h2 class="userprofile display-6 text-white text-right"></h2>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-12 order-1">
+          <div class="p-5">
+            <h2 class="favorites display-6 text-left" style="color:#600000;">
+              <span class="userprofile"></span>'s Favorites:</h2>
+            <p style="font-size: 24px;">
+              <span class="movie1"> </span>
+              <span class="movie2">, </span>
+              <span class="movie3">, </span>
+              <span class="movie4">, </span>
+              <span class="movie5">, </span>
+            </p>
+            <h2 class="display-6 text-left" style="color:#600000;">Choose Your Next Binge:</h2>
+            <div id="putItHere"></div>
+            <br>
+            <br>
+            <button onclick="myFunction()" style="font-size: 24px;">Get New Choices!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+
+
+
+  <!-- Footer -->
+  <footer class="py-5">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Binge'r 2017</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+
+  <!-- Bootstrap core JavaScript -->
+  <script>
+    function myFunction() {
+      location.reload();
+    }
+  </script>
+
+  <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <script type="text/javascript">
+    $(function () {
+
+      $.ajax({
+        method: "GET",
+        url: '/api/profile'
+      }).done(function (data) {
+
+        console.log('profile data', data);
+        $(".userprofile").append(data.usernamef, ' ', data.usernamel);
+
+        var movies = [];
+        movies.push(data.movie1);
+        movies.push(data.movie2);
+        movies.push(data.movie3);
+        movies.push(data.movie4);
+        movies.push(data.movie5);
+
+        $(".movie1").append(data.movie1);
+        $(".movie2").append(data.movie2);
+        $(".movie3").append(data.movie3);
+        $(".movie4").append(data.movie4);
+        $(".movie5").append(data.movie5);
+
+        console.log(movies);
+
+        var current = window.location.origin;
+
+        for (var i = 0; i < movies.length; i++) {
+          var term = movies[i];
+          $.ajax({
+              url: current + "/api/search/" + term,
+              method: "GET"
+            }) //ajax call to run search function
+            .done(function (response) { //when complete, populate page w/ results
+              console.log("html response");
+              console.log(response);
+
+              //create new div to contain response data
+              var myResponse = $("<div>");
+
+              //create new image from response data
+              var respImg = $("<img>");
+              respImg.addClass('thumbnail');
+              respImg.attr("src", response[0].picture);
+
+              //create link to view source location and append to new button (repeats for mx sources)
+              var buttonDiv = $("<div>");
+
+              for (var i = 0; i < response[0].locations.length; i++) { //for loop to create multiple watch links if they exist
+                var button = $("<button>");
+                button.addClass('sourceButton');
+                var watchIt = $("<a>"); //create new anchor
+                var watchLink; //create custom link variable
+                if (response[0].locations[i].name == "NetflixUS") { //if primary source is netflix
+                  watchLink = String(response[0].locations[i].url).replace("nflx", "https"); //trim netflix url prefix
+
+                } else {
+                  watchLink = response[0].locations[i].url;
+                };
+
+
+                console.log(watchLink);
+                watchIt.attr("href", watchLink); //attach watchLInk to anchor
+                watchIt.attr("target", "_blank"); //open in new window
+
+                //assigns location display name to button text
+                button.append(response[0].locations[i].display_name);
+
+                //append button to anchor for redirect
+                watchIt.append(button);
+                //append newly created button to button div
+                buttonDiv.append(watchIt);
+
+
+              }
+
+              //append data to myResponse div and populate page
+              myResponse.append(response[0].name);
+              $("#putItHere").append(myResponse);
+              $("#putItHere").append(respImg);
+              $("#putItHere").append(buttonDiv);
+
+            })
+
+        }
+
+        // $("#go").on("click", function (movies) {
+        //   event.preventDefault();
+
+
+        // });
+
+      });
+
+    })
+    // //this is where i'll be working on monday
+    // $(".userprofile").append(data, function (profile, html) {
+
+    // });
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+html {
+  height: 100%;
+}
+
+body {
+  padding-top: 54px;
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+
+@media (min-width: 992px) {
+  body {
+    padding-top: 56px;
+  }
+}
+
+a {
+  text-decoration: none;
+}
+
+nav {
+  background-color: #660000;
+  color: #ECF0F1;
+}
+
+button {
+  text-decoration: none;
+  background-color: #660000;
+  color: #ECF0F1;
+  font-size: 45px;
+  padding: 0px 70px 0px 70px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #800000;
+  /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left top, #800000, #4d0000);
+  /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, #800000, #4d0000);
+  /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right, #800000, #4d0000);
+  /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right, #800000, #4d0000);
+  /* Standard syntax */
+}
+
+header.masthead {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+
+header.masthead>.overlay {
+  padding: 5rem 0;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+footer {
+  background-color: #660000;
+  color: #ECF0F1;
+  position: static;
+  /* grid-row-start: 6;
+  grid-row-end: 3; */
+}
+
+@media (min-width: 992px) {
+  header.masthead>.overlay {
+    padding: 10rem 0;
+  }
+}
